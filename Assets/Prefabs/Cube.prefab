@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cube: {fileID: 8303447180056738785}
   _explode: {fileID: 6598774670153630714}
+  _explosionVFX: {fileID: 9134871981427271990, guid: 31763f0d72d7d35498cc90eea1e467c2, type: 3}
 --- !u!114 &6885545940678451127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,4 +189,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _force: 25
-  _radius: 50
+  _radius: 40

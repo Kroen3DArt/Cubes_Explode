@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(RandomColors), typeof(Rigidbody))]
@@ -5,6 +6,7 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private Cube _cube;
     [SerializeField] private Explode _explode;
+    [SerializeField] private GameObject _explosionVFX;
 
     private float _sizeReduction = 2;
     private int _minCountCubes = 2;
@@ -12,6 +14,10 @@ public class Spawner : MonoBehaviour
     private float _maxSeparateChance = 100;
     private int _separateFactor = 2;
     private float _separateChance;
+    private List<Rigidbody> _cubesForThrow = new List<Rigidbody>();
+    private float _explosionFactor = 1f;
+
+    public float GetExplosionFactor() => _explosionFactor;
 
     private void OnEnable()
     {
@@ -32,9 +38,16 @@ public class Spawner : MonoBehaviour
 
             for (int i = 0; i < countCubesCreate; i++)
                 CreateCubes(cube);
-        }
 
-        _explode.Boom(cube.transform.position);
+            foreach (Rigidbody newCube in _cubesForThrow)
+                newCube.AddForce(cube.transform.position);
+        }
+        else
+        {
+            _explode.Boom(cube.transform.position);
+            GameObject explosionVFX = Instantiate(_explosionVFX, transform.position, transform.rotation);
+            Destroy(explosionVFX, 2);
+        }
     }
 
     private Cube CreateCubes(Cube cube)
@@ -47,6 +60,8 @@ public class Spawner : MonoBehaviour
         newCube.transform.localScale /= _sizeReduction;
         newCube.GetComponent<RandomColors>().SetRandomColor();
         newCube.GetComponent<Spawner>()._separateChance = _separateChance / _separateFactor;
+        _explosionFactor++;
+        _cubesForThrow.Add(newCube.GetComponent<Rigidbody>());
 
         return newCube;
     }
