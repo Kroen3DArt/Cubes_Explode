@@ -2,20 +2,13 @@ using UnityEngine;
 
 public class Explode : MonoBehaviour
 {
-    [SerializeField] private float _force;
-    [SerializeField] private float _radius;
+    private float _force = 250;
+    private float _radius = 350;
 
-    private Spawner _spawner;
-
-    private void Start()
+    public void Boom(Vector3 explosionPosition, Cube cube)
     {
-        _spawner = GetComponent<Spawner>();
-    }
-
-    public void Boom(Vector3 explosionPosition)
-    {
-        float currentExplosionFactor = _spawner.GetExplosionFactor();
-        _radius *= currentExplosionFactor;
+        float currentRadius = _radius * cube.GetExplosionFactor();
+        float currentForce = _force * cube.GetExplosionFactor();
 
         Collider[] colliders = Physics.OverlapSphere(explosionPosition, _radius);
 
@@ -26,7 +19,7 @@ public class Explode : MonoBehaviour
             if (rigidbody != null)
             {
                 Vector3 direction = (collider.transform.position - explosionPosition).normalized;
-                rigidbody.AddForce(direction * (_force * currentExplosionFactor), ForceMode.Impulse);
+                rigidbody.AddExplosionForce(currentForce, direction, currentRadius);
             }
         }
     }

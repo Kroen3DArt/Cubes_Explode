@@ -3,13 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class RandomColors : MonoBehaviour
 {
-    public void SetRandomColor() => GetComponent<Renderer>().material.color = GetColor();
+    public void SetRandomColor() => GetComponent<Renderer>().material.color = CreateRandomColor();
 
-    private Color GetColor()
-    {
-        Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-
-        return color;
-    }
-
+    private Color CreateRandomColor() => new Color(Random.value, Random.value, Random.value);
 }
