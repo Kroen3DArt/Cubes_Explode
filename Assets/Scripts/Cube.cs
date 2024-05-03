@@ -5,26 +5,25 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
+
+    public event Action<Cube> Click;
+
     private float _separateChance;
     private bool _isSepareted = false;
-    private int _explosionFactor;
 
-    public Cube()
+    public int ExplosionFactor { get; private set; }
+    public int SeparateFactor { get; private set; }
+    public float MaxSeparateChance { get; private set; }
+
+    private void Awake()
     {
         SeparateFactor = 2;
         MaxSeparateChance = 100;
         _separateChance = MaxSeparateChance;
-        _explosionFactor = 1;
+        ExplosionFactor = 1;
     }
 
-    public int SeparateFactor { get; private set; }
-    public float MaxSeparateChance { get; private set; }
-
-    public event Action<Cube> Click;
-
-    public int GetExplosionFactor() => _explosionFactor;
-
-    public void GrowExplosionFactor() => _explosionFactor++;
+    public void GrowExplosionFactor() => ExplosionFactor++;
 
     public float SplitChance()
     {

@@ -7,8 +7,8 @@ public class Explode : MonoBehaviour
 
     public void Boom(Vector3 explosionPosition, Cube cube)
     {
-        float currentRadius = _radius * cube.GetExplosionFactor();
-        float currentForce = _force * cube.GetExplosionFactor();
+        float currentRadius = _radius * cube.ExplosionFactor;
+        float currentForce = _force * cube.ExplosionFactor;
 
         Collider[] colliders = Physics.OverlapSphere(explosionPosition, _radius);
 
